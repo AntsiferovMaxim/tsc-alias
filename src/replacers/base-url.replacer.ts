@@ -31,7 +31,12 @@ export default function replaceBaseUrlImport({
 
   // If there are files matching the target, resolve the path.
   if (
-    config.pathCache.existsResolvedAlias(`${config.outPath}/${requiredModule}`)
+    config.pathCache.existsResolvedAlias(
+      `${config.outPath}/${requiredModule}`
+    ) ||
+    config.pathCache.existsResolvedAlias(
+      `${config.outPath}/${requiredModule.replace('src/', '')}`
+    )
   ) {
     let relativePath: string = normalizePath(
       relative(
@@ -48,7 +53,10 @@ export default function replaceBaseUrlImport({
 
     const index = orig.indexOf(requiredModule);
     const newImportScript =
-      orig.substring(0, index) + relativePath + '/' + orig.substring(index);
+      orig.substring(0, index) +
+      relativePath +
+      '/' +
+      orig.replace('src/', '').substring(index);
     config.output.debug(
       'base-url replacer - newImportScript: ',
       newImportScript

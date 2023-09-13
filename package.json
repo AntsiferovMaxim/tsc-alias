@@ -12,6 +12,7 @@
   "scripts": {
     "prepare": "husky install",
     "build:dev": "tsc -w",
+    "build": "tsc",
     "clean": "rimraf dist && tsc && pnpm link -g",
     "release:patch": "npm version patch",
     "postversion": "git push && git push --tags && npm publish",
